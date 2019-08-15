@@ -75,7 +75,7 @@
                     </div>
                     <div class="weui-uploader__bd">
                         <div class="weui-uploader__input-box">
-                            <input id="uploaderInput1" @change="uploadFront" class="weui-uploader__input"  type="file" accept="image/*" multiple />
+                            <input id="uploaderInput1" @change="uploadFront"  class="weui-uploader__input"  type="file" accept="image/*" multiple />
                             <img style="width: 100%;height: 100%" v-if="form.appletsIdNumFront" :src="form.appletsIdNumFront">
                         </div>
                         <div class="weui-uploader__input-box">
@@ -112,9 +112,8 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<!--<script src="node_modules/jquery/dist/jquery.js"></script>-->
-<!--<script src="node_modules/jquery/dist/zepto.min.js"></script>-->
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/jquery/dist/zepto.min.js"></script>
 <script>
     new Vue({   //创建一个Vue的实例
         el: "#login", //挂载
@@ -128,6 +127,7 @@
             user: [],
             loading: false,
             loadingText: '确定',
+            comRatio:1
         },
         created(){
             this.user = JSON.parse(window.sessionStorage.getItem("user"));
@@ -148,6 +148,10 @@
         	uploadFront(){
         		var _this = this;
                 let imgFile = $(this.$el).find('#uploaderInput1')[0].files[0];//取到上传的图片
+                if(imgFile.size / 1024 > 5000){
+                    weui.alert('图片不能超过5M');
+                    return
+                }
                 if(imgFile.size / 1024 > 1000){
                     this.imgPreview1(imgFile);
                 }else{
@@ -167,27 +171,13 @@
                     })
                         .then((response) => {
                             if (response.data.code == 0) {
-
+                                _this.$notify({
+                                    message: '您已成功上传',
+                                    type: 'success',
+                                    offset: 50,
+                                    duration: 0
+                                });
                                 _this.form.appletsIdNumFront = response.data.data.picUrl;
-                                if(response.data.data.name && response.data.data.ids) {
-                                    _this.form.name = response.data.data.name;
-                                    _this.form.ids = response.data.data.ids;
-                                    _this.$notify({
-                                        message: '识别成功',
-                                        type: 'success',
-                                        offset: 50,
-                                        duration: 0
-                                    });
-                                } else {
-                                    _this.$notify({
-                                        message: '识别失败，请重新上传',
-                                        type: 'success',
-                                        offset: 50,
-                                        duration: 0
-                                    });
-                                }
-
-
                                 loading.close();
                             } else {
                                 this.$message({
@@ -219,7 +209,6 @@
 
                     img.onload = function () {
                         let data = self.comPress(img)
-                        console.log(data.length)
                         var params = new FormData();
                         params.append('appletsId',self.user.appletsUser.id);
                         params.append('token',self.user.appletsId);
@@ -276,7 +265,6 @@
 
                     img.onload = function () {
                         let data = self.comPress(img)
-                        console.log(data.length)
                         var params = new FormData();
                         params.append('appletsId',self.user.appletsUser.id);
                         params.append('token',self.user.appletsId);
@@ -318,6 +306,10 @@
 
                 var _this = this;
                 let imgFile = $(this.$el).find('#uploaderInput2')[0].files[0];//取到上传的图片
+                if(imgFile.size / 1024 > 5000){
+                    weui.alert('图片不能超过5M');
+                    return
+                }
                 if(imgFile.size / 1024 > 1000){
                     this.imgPreview2(imgFile);
                 }else{
@@ -371,7 +363,7 @@
                 ctx.drawImage(img, 0, 0, width, height);
 
                 //进行最小压缩
-                let ndata = canvas.toDataURL("image/jpeg", 0.5);
+                let ndata = canvas.toDataURL("image/jpeg", 0.3);
                 console.log("*******压缩后的图片大小*******");
                 // console.log(ndata)
                 console.log(ndata.length);
@@ -389,27 +381,6 @@
                 }
 
                 return new Blob( [ab] , {type : 'image/png'});
-            },
-            // 压缩图片
-            compress(img) {
-                let canvas = document.createElement("canvas");
-                let ctx = canvas.getContext("2d");
-                let initSize = img.src.length;
-                let width = img.width;
-                let height = img.height;
-                canvas.width = width;
-                canvas.height = height;
-                // 铺底色
-                ctx.fillStyle = "#fff";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(img, 0, 0, width, height);
-
-                //进行最小压缩
-                let ndata = canvas.toDataURL("image/jpeg", 0.7);
-                console.log("*******压缩后的图片大小*******");
-                // console.log(ndata)
-                console.log(ndata.length);
-                return ndata;
             },
             handleIdCardSuccessFront(options) {
                 this.$notify({
