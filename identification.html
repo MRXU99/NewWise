@@ -172,8 +172,8 @@
                             if (response.data.code == 0) {
                                 _this.form.appletsIdNumFront = response.data.data.picUrl;
                                 if(response.data.data.name && response.data.data.ids) {
-                                    that.form.name = response.data.data.name
-                                    that.form.ids = response.data.data.ids
+                                    _this.form.name = response.data.data.name
+                                    _this.form.ids = response.data.data.ids
                                     _this.$notify({
                                         message: '识别成功',
                                         type: 'success',
