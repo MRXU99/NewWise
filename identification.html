@@ -235,13 +235,24 @@
                         })
                             .then((response) => {
                                 if (response.data.code == 0) {
-                                    self.$notify({
-                                        message: '您已成功上传',
-                                        type: 'success',
-                                        offset: 50,
-                                        duration: 0
-                                    });
                                     self.form.appletsIdNumFront = response.data.data.picUrl;
+                                    if(response.data.data.name && response.data.data.ids) {
+                                        self.form.name = response.data.data.name
+                                        self.form.ids = response.data.data.ids
+                                        self.$notify({
+                                            message: '识别成功',
+                                            type: 'success',
+                                            offset: 50,
+                                            duration: 0
+                                        });
+                                    } else {
+                                        self.$notify({
+                                            message: '识别失败，请重新上传',
+                                            type: 'error',
+                                            offset: 50,
+                                            duration: 0
+                                        });
+                                    }
                                     loading.close()
                                 } else {
                                 self.$message({
