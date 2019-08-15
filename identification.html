@@ -75,11 +75,11 @@
                     </div>
                     <div class="weui-uploader__bd">
                         <div class="weui-uploader__input-box">
-                            <input id="uploaderInput1" @change="uploadFront" disabled  class="weui-uploader__input"  type="file" accept="image/*" multiple />
+                            <input id="uploaderInput1" @change="uploadFront" :disabled="disabled"  class="weui-uploader__input"  type="file" accept="image/*" multiple />
                             <img style="width: 100%;height: 100%" v-if="form.appletsIdNumFront" :src="form.appletsIdNumFront">
                         </div>
                         <div class="weui-uploader__input-box">
-                            <input id="uploaderInput2" @change="uploadBack" disabled  class="weui-uploader__input" type="file" accept="image/*" multiple />
+                            <input id="uploaderInput2" @change="uploadBack" :disabled="disabled"  class="weui-uploader__input" type="file" accept="image/*" multiple />
                             <img style="width: 100%;height: 100%" v-if="form.appletsIdNumBack" :src="form.appletsIdNumBack">
                         </div>
                     </div>
@@ -97,7 +97,7 @@
         <div class="weui-cell">
             <div class="weui-cell__hd"><label class="weui-label">身份证号:</label></div>
             <div class="weui-cell__bd">
-                <input v-model="form.ids" disabled class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入身份证号"/>
+                <input v-model="form.ids" disabled="disabled" class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入身份证号"/>
             </div>
         </div>
     </div>
@@ -123,6 +123,7 @@
                 name: '',
                 ids: '',
             },
+            disabled: false,
             user: [],
             loading: false,
             loadingText: '确定',
@@ -137,6 +138,19 @@
                 this.form.ids = this.user.appletsUser.idNum ? this.user.appletsUser.idNum : '',
                 this.form.appletsIdNumFront = this.user.appletsUser.idNumFront ? this.user.appletsUser.idNumFront: '',
                 this.form.appletsIdNumBack = this.user.appletsUser.idNumBack ? this.user.appletsUser.idNumBack: ''
+                if (this.user.appletsUser.authFlag == 1){
+                    this.disabled = true
+                    this.$notify({
+                        message: '您已认证成功',
+                        type: 'success',
+                        offset: 50,
+                        duration: 0
+                    });
+                    console.log(this.disabled)
+                } else{
+                    console.log('没有执行')
+                }
+
             }
             console.log(this.user);
         },
