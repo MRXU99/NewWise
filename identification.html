@@ -606,19 +606,20 @@
                                             console.log(that)
                                             console.log(response)
                                             that.form.appletsIdNumBack = response.data.data.picUrl
-                                            if(response.data.data.name && response.data.data.ids) {
-                                                that.form.name = response.data.data.name
-                                                that.form.ids = response.data.data.ids
-                                                that.$message({
-                                                    type: 'success',
-                                                    message: '识别成功'
-                                                });
-                                            } else {
-                                                that.$message({
-                                                    type: 'error',
-                                                    message: '识别失败，请重新上传'
-                                                });
-                                            }
+                                            console.log('执行的是这一个')
+                                            // if(response.data.data.name && response.data.data.ids) {
+                                            //     that.form.name = response.data.data.name
+                                            //     that.form.ids = response.data.data.ids
+                                            //     that.$message({
+                                            //         type: 'success',
+                                            //         message: '识别成功'
+                                            //     });
+                                            // } else {
+                                            //     that.$message({
+                                            //         type: 'error',
+                                            //         message: '识别失败，请重新上传'
+                                            //     });
+                                            // }
 
                                             console.log(that)
                                         } else {
