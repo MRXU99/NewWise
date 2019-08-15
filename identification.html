@@ -75,11 +75,11 @@
                     </div>
                     <div class="weui-uploader__bd">
                         <div class="weui-uploader__input-box">
-                            <input id="uploaderInput1" @change="uploadFront"  class="weui-uploader__input"  type="file" accept="image/*" multiple />
+                            <input id="uploaderInput1" @change="uploadFront" disabled  class="weui-uploader__input"  type="file" accept="image/*" multiple />
                             <img style="width: 100%;height: 100%" v-if="form.appletsIdNumFront" :src="form.appletsIdNumFront">
                         </div>
                         <div class="weui-uploader__input-box">
-                            <input id="uploaderInput2" @change="uploadBack"  class="weui-uploader__input" type="file" accept="image/*" multiple />
+                            <input id="uploaderInput2" @change="uploadBack" disabled  class="weui-uploader__input" type="file" accept="image/*" multiple />
                             <img style="width: 100%;height: 100%" v-if="form.appletsIdNumBack" :src="form.appletsIdNumBack">
                         </div>
                     </div>
