@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>智鸟工作-社保、个税测算工具</title>
+    <META name="keywords" content="智鸟工作、灵活用工、灵活用工解决方案、社保入税、个税、个税计算器、社保计算器、个税起征点、个税计算">
+    <META name="Description" content="智鸟工作为您提供最新个税和社保计算工具">
+    <link rel="shortcut icon" href="images/nav/bitbug_favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/exper.css"/>
+</head>
+<style>
+    section>div{
+        width: 1200px;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    input[type="number"]{ -moz-appearance: textfield; }
+</style>
+<script src="js/exper.js"></script>
+<script type="text/javascript">
+    var phoneWidth =  parseInt(window.screen.width);
+    var phoneScale = phoneWidth/640;
+    var ua = navigator.userAgent;
+    if (/Android (\d+\.\d+)/.test(ua)){
+        var version = parseFloat(RegExp.$1);
+        if(version>2.3){
+            document.write('<meta name="viewport" content="width=640, minimum-scale = '+phoneScale+', maximum-scale = '+phoneScale+', target-densitydpi=device-dpi">');
+        }else{
+            document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+        }
+    } else {
+        document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+    }
+</script>
+<body onload="load()">
+<!--头部-->
+    <header>
+        <div style="height: 80px;width: 100%">
+            <div id="nav">
+                <div class="nav">
+                    <div class="nav_lt">
+                        <a href="index.html"><img id="nav_lf" src="images/nav/logo_white.png"></a>
+                    </div>
+                    <div class="nav_bar" id="nav_bar">
+                        <img id="nb_img" src="images/nav/m_nav_menu.png">
+                    </div>
+                    <ul class="nav_rt" id="nav_rt">
+                        <li><a id="a4" href="index.html">首页</a></li>
+                        <li><a id="a2" href="product.html">产品服务</a></li>
+                        <li><a id="a3" href="solution.html">行业解决方案</a></li>
+                        <li><a id="a1" href="about.html">关于我们</a></li>
+                        <li><a href="https://open.birdwork.com" target="_blank" id="a5">登录</a></li>
+                        <li class="nav-tel">
+                            <img id="nav_rt_tel" src="images/nav/tel_white.png">
+                            <a id="p6">400-806-5355</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="lunbo">
+            <a  id="lunbo_a1" onclick="geshui()" >个税计算器</a>
+            <a  id="lunbo_a2" onclick="jieshui()">节税计算器</a>
+        </div>
+    </header>
+    <section>
+        <!--个税计算器-->
+        <!--综合所得-->
+        <div class="zonghe" style="display:none" id="zonghe_hidd">
+            <form>
+                <p style="position: relative" onclick="hidd()">收入类型：
+                    <span>综合所得 <i></i></span>
+                    <a class="hidd" id="hidd" style="display: none">
+                        <span onclick="zonghe()">综合所得 </span>
+                        <span onclick="lixi()">利息、股息、红利所得</span>
+                        <span onclick="geti()">个体工商户生产、经营所得</span>
+                        <span onclick="zulin()">租赁所得</span>
+                        <span onclick="zhuanrang()">转让所得</span>
+                        <span onclick="ouran()">偶然所得(如中奖、中彩)</span>
+                        <span onclick="qita()">被确定征税的其他部分</span>
+                    </a>
+                </p>
+                <p>税前工资薪金收入：<input id="gongzi" type="number" placeholder="请输入"></p>
+                <p>劳务报酬收入：<input id="laowu" type="number" placeholder="请输入"></p>
+                <p>特许权使用费收入：<input id="texu" type="number" placeholder="请输入"></p>
+                <p>稿酬收入：<input id="gaochou" type="number" placeholder="请输入"></p>
+                <!--<p>税前专项扣除合计：<input id="zxiang"  type="text" placeholder="请输入"></p>-->
+                <p>各项社会保险费：<input id="baoxian" type="number" placeholder="请输入"></p>
+                <p>起征点：
+                    <span style="border: none">5000元/月</span>
+                </p>
+                <p>
+                    <a class="button_1" onclick="zong()">确定</a>
+                    <button type="reset" class="button_2">重置</button>
+                </p>
+
+            </form>
+            <div class="form_rt">
+                <h3>综合所得计算结果</h3>
+                <p>应纳税所得额(元)：
+                    <span id="ynsd" style="border: none">0</span>
+                </p>
+                <p>适用税率(%)：
+                    <span id="shuilv" style="border: none">0</span>
+                </p>
+                <p>扣除数(元)：
+                    <span id="kouchu" style="border: none">0</span>
+                </p>
+                <p>应缴税款(元)：
+                    <span id="ynse" style="border: none;color: #EB4C46">0</span>
+                </p>
+                <p>实发工资(元)：
+                    <span id="shiji" style="border: none;color: #EB4C46">0</span>
+                </p>
+            </div>
+            <div class="gongshi">
+                <h5>计算公式</h5>
+                <p>
+                    应纳税所得额=工薪资金+劳务报酬所得*80%+稿酬所得*70%*80%+特许权使用费所得*80%-社会保险等扣除项-起征点(5000)<br>
+                    应纳税额=应纳税所得额*税率-速算扣除数<br>
+                    实际收入：=工薪资金+劳务报酬所得+稿酬所得+特许权使用费所得-应纳税额-社会保险
+                </p>
+                <h5>个人所得税税率表</h5>
+                <table>
+                    <thead>
+                        <th>级数</th>
+                        <th>应纳税所得额(含税)</th>
+                        <th>税率(%)</th>
+                        <th>速算扣除数</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>不超过3,000元的部分</td>
+                        <td>3</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>超过3,000元至12，000元的部分</td>
+                        <td>10</td>
+                        <td>210</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>超过12,000元至25，000元的部分</td>
+                        <td>20</td>
+                        <td>1410</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>超过25,000元至35，000元的部分</td>
+                        <td>25</td>
+                        <td>2260</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>超过35,000元至55，000元的部分</td>
+                        <td>30</td>
+                        <td>4410</td>
+                    </tr><tr>
+                        <td>6</td>
+                        <td>超过55,000元至80，000元的部分</td>
+                        <td>35</td>
+                        <td>7160</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>超过80,000元的部分</td>
+                        <td>45</td>
+                        <td>15160</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <span>*本表含税级距中应纳税所得额，是指每个月收入金额-社会保险等扣除项-起征点5000元的余额</span>
+                <br>
+                <span>*含税级距适用于同纳税人负担税款的综合所得</span>
+            </div>
+        </div>
+        <!--利息、股息、红利所得-->
+        <div class="lixi" style="display:none" id="lixi_hidd">
+            <form>
+                <p style="position: relative" onclick="hidd_lx()">收入类型：
+                    <span>利息、股息、红利所得<i></i></span>
+                    <a class="hidd" id="hidd_lx" style="display: none">
+                        <span onclick="zonghe()">综合所得 </span>
+                        <span onclick="lixi()">利息、股息、红利所得</span>
+                        <span onclick="geti()">个体工商户生产、经营所得</span>
+                        <span onclick="zulin()">租赁所得</span>
+                        <span onclick="zhuanrang()">转让所得</span>
+                        <span onclick="ouran()">偶然所得(如中奖、中彩)</span>
+                        <span onclick="qita()">被确定征税的其他部分</span>
+                    </a>
+                </p>
+                <p>收入金额：<input type="number" placeholder="请输入" id="li"></p>
+                <p>
+                    <a class="button_1" onclick="li()">确定</a>
+                    <button type="reset" class="button_2">重置</button>
+                </p>
+            </form>
+            <div class="form_rt">
+                <h3>综合所得计算结果</h3>
+
+                <p>减除费用(元)：
+                    <span id="li_jc" style="border: none">0</span>
+                </p>
+                <p>税率(%)：
+                    <span id="li_sl" style="border: none">20%</span>
+                </p>
+                <p>应缴税款(元)：
+                    <span id="li_yj" style="border: none;color: #EB4C46">0</span>
+                </p>
+                <p>利息、股息、红利(元)：
+                    <span id="li_sd" style="border: none;color: #EB4C46">0</span>
+                </p>
+            </div>
+            <div class="gongshi">
+                <h5>计算公式</h5>
+                <p style="margin-top: 20px">应纳税所得额 = 每次收入金额</p>
+                <span>*说明：利息、股息、红利所得，以个人每次收入额为应纳税所得额，不扣除任何费用， 以支付单位或个人每次支付利息、股息、红利时，个人的所取得的收入为一次。</span>
+                <p style="margin-bottom: 40px">应纳税额 = 应纳税所得额 × 税率（20%）</p>
+                <h5>利息/股息/红利税率表</h5>
+                <p style="margin-top: 20px">利息、股息、红利所得，适用20%的比例税率。</p>
+            </div>
+        </div>
+        <!--个体工商户生产、经营所得-->
+        <div class="geti" style="display:none" id="geti_hidd">
+            <form>
+                <p style="position: relative" onclick="hidd_gt()">收入类型：
+                    <span>个体工商户生产、经营所得 <i></i></span>
+                    <a class="hidd" id="hidd_gt" style="display: none">
+                        <span onclick="zonghe()">综合所得 </span>
+                        <span onclick="lixi()">利息、股息、红利所得</span>
+                        <span onclick="geti()">个体工商户生产、经营所得</span>
+                        <span onclick="zulin()">租赁所得</span>
+                        <span onclick="zhuanrang()">转让所得</span>
+                        <span onclick="ouran()">偶然所得(如中奖、中彩)</span>
+                        <span onclick="qita()">被确定征税的其他部分</span>
+                    </a>
+                </p>
+                <p>收入金额：<input type="number" placeholder="请输入" id="ge"></p>
+                <p>
+                    <a class="button_1" onclick="ge()">确定</a>
+                    <button type="reset" class="button_2">重置</button>
+                </p>
+            </form>
+            <div class="form_rt">
+                <h3>综合所得计算结果</h3>
+                <p>应纳税所得额(元)：
+                    <span id="ge_yn" style="border: none">0</span>
+                </p>
+                <p>税率(%)：
+                    <span id="ge_sl" style="border: none">0</span>
+                </p>
+                <p>扣除数(元)：
+                    <span id="ge_kc" style="border: none">0</span>
+                </p>
+                <p>应缴税款(元)：
+                    <span id="ge_yj" style="border: none;color: #EB4C46">0</span>
+                </p>
+                <p>生产经营所得(元)：
+                    <span id="ge_sd" style="border: none;color: #EB4C46">0</span>
+                </p>
+            </div>
+            <div class="gongshi">
+                <h5>计算公式</h5>
+                <p>
+                    应纳税所得额 = 年度收入总额 - 成本、费用及损失<br>
+                    应纳税额 = 应纳税所得额 × 适用税率 - 速算扣除数
+                </p>
+                <h5>个体工商户生产、经营所得税税率表</h5>
+                <table>
+                    <thead>
+                        <th>级数</th>
+                        <th>全年应纳税所得额</th>
+                        <th>税率(%)</th>
+                        <th>速算扣除数</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>不超过3,0000元的部分</td>
+                            <td>3</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>超过30,000元到90,000元的部分</td>
+                            <td>10</td>
+                            <td>1500</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>超过90,000元至300,000元的部分</td>
+                            <td>20</td>
+                            <td>10500</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>超过300,000元至500,000元的部分</td>
+                            <td>30</td>
+                            <td>40500</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>超过500,000元的部分</td>
+                            <td>30</td>
+                            <td>65500</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <span>*本表所列含税级距与不含税级距，均为按照税法规定以每一纳税年度的收入总额减除成本、费用以及损失后的所得额。</span>
+                <br>
+                <span>*含税级距适用于个体工商户的生产、经营所得和由纳税人负担税款的对企事业单位的承包经营、承租经营所得；不含税级距适用于由他人（单位）代付税款的对企事业单位的承包经营、承租经营所得。</span>
+                <br>
+                <span>投资者兴办两个或两个以上企业的（包括参与兴办），年度终了时，应汇总从所有企业取得的应纳税所得额，据此确定适用税率并计算缴纳个人所得税。</span>
+            </div>
+        </div>
+        <!--租赁所得-->
+        <div class="zulin" style="display:none" id="zulin_hidd">
+            <form>
+                <p style="position: relative" onclick="hidd_zl()">收入类型：
+                    <span>租赁所得 <i></i></span>
+                    <a class="hidd" id="hidd_zl" style="display: none">
+                        <span onclick="zonghe()">综合所得 </span>
+                        <span onclick="lixi()">利息、股息、红利所得</span>
+                        <span onclick="geti()">个体工商户生产、经营所得</span>
+                        <span onclick="zulin()">租赁所得</span>
+                        <span onclick="zhuanrang()">转让所得</span>
+                        <span onclick="ouran()">偶然所得(如中奖、中彩)</span>
+                        <span onclick="qita()">被确定征税的其他部分</span>
+                    </a>
+                </p>
+                <p>收入金额：<input type="number" placeholder="请输入" id="zu_bc"></p>
+                <p>
+                    <a class="button_1" onclick="zu()">确定</a>
+                    <button type="reset" class="button_2">重置</button>
+                </p>
+            </form>
+            <div class="form_rt">
+                <h3>综合所得计算结果</h3>
+                <p>应纳税所得额(元)：
+                    <span id="zu_yn" style="border: none">0</span>
+                </p>
+                <p>税率(%)：
+                    <span style="border: none">20%</span>
+                </p>
+                <p>扣除数(元)：
+                    <span id="zu_kc" style="border: none">0</span>
+                </p>
+                <p>应缴税款(元)：
+                    <span id="zu_yj" style="border: none;color: #EB4C46">0</span>
+                </p>
+                <p>财产租赁(元)：
+                    <span id="zu_sd" style="border: none;color: #EB4C46">0</span>
+                </p>
+                <h6>*假定各项成本扣除为0元</h6>
+            </div>
+            <div class="gongshi">
+                <h5>计算公式</h5>
+                <p>
+                    应纳税所得额 = 劳务报酬（少于4000元）- 800元<br>
+                    应纳税所得额 = 劳务报酬（超过4000元） × （1 - 20%）<br>
+                    应纳税额 = 应纳税所得额 × 20%<br>
+                </p>
+                <h5>财产租赁税率表</h5>
+                <p>
+                    财产租赁所得，适用20%的比例税率
+
+                    优惠政策：对于个人按市场价格出租的居民住房取得的财产租赁收入，自2001年1月1日起暂按10%的税率征收个人所得税。
+                </p>
+            </div>
+        </div>
+        <!--转让所得-->
+        <div class="zhuanrang" style="display:none" id="zhuanrang_hidd">
+            <form>
+                <p style="position: relative" onclick="hidd_zr()">收入类型：
+                    <span>转让所得 <i></i></span>
+                    <a class="hidd" id="hidd_zr" style="display: none">
+                        <span onclick="zonghe()">综合所得 </span>
+                        <span onclick="lixi()">利息、股息、红利所得</span>
+                        <span onclick="geti()">个体工商户生产、经营所得</span>
+                        <span onclick="zulin()">租赁所得</span>
+                        <span onclick="zhuanrang()">转让所得</span>
+                        <span onclick="ouran()">偶然所得(如中奖、中彩)</span>
+                        <span onclick="qita()">被确定征税的其他部分</span>
+                    </a>
+                </p>
+                <p>收入金额：<input type="number" placeholder="请输入" id="zhuan"></p>
+                <p>
+                    <a class="button_1" onclick="zhuan()">确定</a>
+                    <button type="reset" class="button_2">重置</button>
+                </p>
+            </form>
+            <div class="form_rt">
+                <h3>综合所得计算结果</h3>
+                <p>减除费用(元)：
+                    <span id="zr_jc" style="border: none">0</span>
+                </p>
+                <p>税率(%)：
+                    <span style="border: none">20%</span>
+                </p>
+                <p>应缴税款(元)：
+                    <span id="zr_yj" style="border: none;color: #EB4C46">0</span>
+                </p>
+                <p>财产转让(元)：
+                    <span id="zr_sd" style="border: none;color: #EB4C46">0</span>
+                </p>
+                <h6>*假定各项成本扣除为0元</h6>
+            </div>
+            <div class="gongshi">
+                <h5>计算公式</h5>
+                <p>
+                    应纳税所得额 = 财产转让收入金额 - 财产原值 - 相关税费及装修费等
+
+                    应纳税额 = 应纳税所得额 × 税率（20%）
+                </p>
+                <h5>财产租赁税率表</h5>
+                <p>
+                    财产转让所得适用20%的比例税率。
+                </p>
+            </div>
+        </div>
+        <!--偶然所得(如中奖、中彩)-->
+        <div class="ouran" style="display:none" id="ouran_hidd">
+            <form>
+                <p style="position: relative" onclick="hidd_or()">收入类型：
+                    <span>偶然所得(如中奖、中彩)<i></i></span>
+                    <a class="hidd" id="hidd_or" style="display: none">
+                        <span onclick="zonghe()">综合所得 </span>
+                        <span onclick="lixi()">利息、股息、红利所得</span>
+                        <span onclick="geti()">个体工商户生产、经营所得</span>
+                        <span onclick="zulin()">租赁所得</span>
+                        <span onclick="zhuanrang()">转让所得</span>
+                        <span onclick="ouran()">偶然所得(如中奖、中彩)</span>
+                        <span onclick="qita()">被确定征税的其他部分</span>
+                    </a>
+                </p>
+                <p>收入金额：<input type="number" placeholder="请输入" id="ou"></p>
+                <p>
+                    <a class="button_1" onclick="ou()">确定</a>
+                    <button type="reset" class="button_2">重置</button>
+                </p>
+            </form>
+            <div class="form_rt">
+                <h3>综合所得计算结果</h3>
+                <p>减除费用(元)：
+                    <span id="ou_jc" style="border: none">0</span>
+                </p>
+                <p>税率(%)：
+                    <span style="border: none">20%</span>
+                </p>
+                <p>应缴税款(元)：
+                    <span id="ou_yj" style="border: none;color: #EB4C46">0</span>
+                </p>
+                <p>偶然所得(元)：
+                    <span id="ou_sd" style="border: none;color: #EB4C46">0</span>
+                </p>
+            </div>
+            <div class="gongshi">
+                <h5>计算公式</h5>
+                <p>
+                    应纳税所得额 = 偶然所得   <i>*说明：偶然所得，以个人每次取得的收入额为应纳税所得额，不扣除任何费用。以每次取得的该项收入为一次。</i>
+
+                    <br>应纳税额 = 应纳税所得额 × 税率（20%）
+                </p>
+                <h5>财产租赁税率表</h5>
+                <p>
+                    偶然所得，适用20%的比例税率。
+                </p>
+            </div>
+        </div>
+        <!--被确定征税的其他部分-->
+        <div class="qita" style="display:none" id="qita_hidd">
+            <form>
+                <p style="position: relative" onclick="hidd_qt()">收入类型：
+                    <span>被确定征税的其他部分<i></i></span>
+                    <a class="hidd" id="hidd_qt" style="display: none">
+                        <span onclick="zonghe()">综合所得 </span>
+                        <span onclick="lixi()">利息、股息、红利所得</span>
+                        <span onclick="geti()">个体工商户生产、经营所得</span>
+                        <span onclick="zulin()">租赁所得</span>
+                        <span onclick="zhuanrang()">转让所得</span>
+                        <span onclick="ouran()">偶然所得(如中奖、中彩)</span>
+                        <span onclick="qita()">被确定征税的其他部分</span>
+                    </a>
+                </p>
+                <p>收入金额：<input type="number" placeholder="请输入" id="qi"></p>
+                <p>
+                    <a class="button_1" onclick="qi()">确定</a>
+                    <button type="reset" class="button_2">重置</button>
+                </p>
+            </form>
+            <div class="form_rt">
+                <h3>综合所得计算结果</h3>
+                <p>减除费用(元)：
+                    <span id="qi_jc" style="border: none">0</span>
+                </p>
+                <p>税率(%)：
+                    <span id="" style="border: none">20%</span>
+                </p>
+                <p>应缴税款(元)：
+                    <span id="qi_yj" style="border: none;color: #EB4C46">0</span>
+                </p>
+                <p>偶然所得(元)：
+                    <span id="qi_sd" style="border: none;color: #EB4C46">0</span>
+                </p>
+            </div>
+            <div class="gongshi">
+                <h5>计算公式</h5>
+                <p>
+                    应纳税所得额 = 收入金额    <i>*说明：其他收入所得的应纳税所得额，即为收入总金额，不扣除作何费用。</i>
+
+                    <br>应纳税额 = 应纳税所得额 × 税率（20%）
+                </p>
+                <h5>财产租赁税率表</h5>
+                <p>
+                    其他所得适用20%比例税率
+                </p>
+            </div>
+        </div>
+
+
+        <!--节税计算器-->
+        <div class="jieshui" id="jieshui" style="display: none">
+            <div class="int">
+                <input type="number" class="" id="qing" placeholder="请输入发放金额">
+                <img src="images/exper/input_clear.png" onclick="qing()">
+                <button onclick="jisuan()">节税体验</button>
+            </div>
+            <div class="jisuan" style="display: none" id="jisuan">
+                <div class="j_top">
+                    <p>预计节省成本<br>
+                        <span id="jscb">0.00</span>
+                    </p>
+                    <p>预计节省成本比例<br>
+                        <span id="jsbl">0.00%</span>
+                    </p>
+                </div>
+                <div class="j_bom">
+                    <div class="jsq">
+                        <h3>节税前</h3>
+                        <p>
+                            <span class="s_lt" >发放模式</span>
+                            <span class="s_rt">工资薪金</span>
+                        </p>
+                        <p>
+                            <span class="s_lt" >需发总额</span>
+                            <span class="s_rt" id="xufa_be">0.00</span>
+                        </p>
+                        <p>
+                            <span class="s_lt" >企业缴纳社保比例</span>
+                            <span class="s_rt">30%</span>
+                        </p>
+                        <p>
+                            <span class="s_lt" >社保支出</span>
+                            <span class="s_rt" id="shebao_be">0.00</span>
+                        </p>
+                        <p>
+                            <span class="s_lt" >企业总成本</span>
+                            <span class="s_rt" style="color:#EB4C46;font-size: 20px" id="cb_be">0.00</span>
+                        </p>
+                        <h6>*各地社保征收标准不同,有些许差异</h6>
+                    </div>
+                    <div class="jsh">
+                        <h3>节税后</h3>
+                        <p>
+                            <span class="s_lt" >发放模式</span>
+                            <span class="s_rt">平台灵活经营个税核定发放</span>
+                        </p>
+                        <p>
+                            <span class="s_lt" >实发金额</span>
+                            <span class="s_rt" id="xufa_af">0.00</span>
+                        </p>
+                        <p>
+                            <span class="s_lt" >社保支出</span>
+                            <span class="s_rt" id="shebao_af">0.00</span>
+                        </p>
+                        <p>
+                            <span class="s_lt" >服务费及税点</span>
+                            <span class="s_rt" id="shuidian">12%</span>
+                        </p>
+                        <p>
+                            <span class="s_lt" >服务费支出</span>
+                            <span class="s_rt" id="fuwu_be">0.00</span>
+                        </p>
+                        <p>
+                            <span class="s_lt" >抵扣</span>
+                            <span class="s_rt" id="dikou">0.00</span>
+                        </p>
+                        <p>
+                            <span class="s_lt" >实际服务费支出</span>
+                            <span class="s_rt" id="fuwu_af">0.00</span>
+                        </p>
+                        <p>
+                            <span class="s_lt" >企业总成本</span>
+                            <span class="s_rt" style="color:#EB4C46;font-size: 20px" id="cb_af">0.00</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--尾部-->
+<footer>
+    <div class="footer-pc">
+        <ul>
+            <li>
+                <img src="images/bot/zy.png">
+                <div>
+                    <h2>专业</h2>
+                    <p>1V1专业顾问服务<br>为企业提供场景化解决方案</p>
+                </div>
+            </li>
+            <li>
+                <img src="images/bot/hg.png">
+                <div>
+                    <h2>合规</h2>
+                    <p>合规闭环服务
+                        <br>保证所有收入合法合规完税</p>
+                </div>
+            </li>
+            <li>
+                <img src="images/bot/fast.png">
+                <div>
+                    <h2>便捷</h2>
+                    <p>自主研发系统
+                        <br>全程在线操作，便捷高效</p>
+                </div>
+            </li>
+            <li>
+                <img src="images/bot/safe.png">
+                <div>
+                    <h2>安全</h2>
+                    <p>资金银行监管
+                        <br>确保企业资金安全支付</p>
+                </div>
+            </li>
+        </ul>
+        <div class="footer-bot">
+            <div class="footer-top">
+                <img src="images/bot/logo_footer.png">
+                <div>
+                    <h5>一站式灵活用工解决方案</h5>
+                    <p>平台化用工 \ 合法合规 \ 降本增效</p>
+                </div>
+            </div>
+            <div class="footer-right">
+                <p></p>
+                <div>
+                    <h5>商务咨询：</h5>
+                    <h1>400-806-5355</h1>
+                </div>
+            </div>
+            <div class="footer-right">
+                <p></p>
+                <div>
+                    <h5>关注我们：</h5>
+                    <div class="code">
+                        <div class="weChat">
+                            <img src="images/bot/wechat.png">
+                            <div class="pop">
+                                <img src="images/bot/weChat_pop.jpg">
+                            </div>
+                        </div>
+                        <div class="weibo">
+                            <img src="images/bot/weibo.png">
+                            <div class="pop">
+                                <img src="images/bot/weibo_pop.png">
+                            </div>
+                        </div>
+                        <div class="one">
+                            <img src="images/bot/one.png">
+                            <div class="pop">
+                                <img src="images/bot/one_pop.jpg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-yd">
+        <div class="footer-top">
+            <img src="images/bot/logo_footer.png">
+            <div>
+                <h5>一站式灵活用工解决方案</h5>
+                <p>平台化用工 \ 合法合规 \ 降本增效</p>
+            </div>
+        </div>
+        <ul>
+            <li>
+                <img src="images/bot/zy.png">
+                <div>
+                    <h2>专业</h2>
+                    <p>1V1专业顾问服务<br>为企业提供场景化解决方案</p>
+                </div>
+            </li>
+            <li>
+                <img src="images/bot/hg.png">
+                <div>
+                    <h2>合规</h2>
+                    <p>合规闭环服务
+                        <br>保证所有收入合法合规完税</p>
+                </div>
+            </li>
+            <li>
+                <img src="images/bot/fast.png">
+                <div>
+                    <h2>便捷</h2>
+                    <p>自主研发系统
+                        <br>全程在线操作，便捷高效</p>
+                </div>
+            </li>
+            <li>
+                <img src="images/bot/safe.png">
+                <div>
+                    <h2>安全</h2>
+                    <p>资金银行监管
+                        <br>确保企业资金安全支付</p>
+                </div>
+            </li>
+        </ul>
+        <div class="footer-bot">
+            <div>
+                <p></p>
+                <div>
+                    <h5>商务咨询：</h5>
+                    <h1>400-806-5355</h1>
+                </div>
+            </div>
+            <div>
+                <p></p>
+                <div>
+                    <h5>关注我们：</h5>
+                    <div class="code">
+                        <div class="weChat">
+                            <img src="images/bot/wechat.png">
+                            <div class="pop">
+                                <img src="images/bot/weChat_pop.jpg">
+                            </div>
+                        </div>
+                        <div class="weibo">
+                            <img src="images/bot/weibo.png">
+                            <div class="pop">
+                                <img src="images/bot/weibo_pop.png">
+                            </div>
+                        </div>
+                        <div class="one">
+                            <img src="images/bot/one.png">
+                            <div class="pop">
+                                <img src="images/bot/one_pop.jpg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p>Copyright©2018 Birdwork. 北京蓝智才服网络科技有限公司保留所有权利&nbsp;|&nbsp; 京icp备18055652号</p>
+</footer>
+</body>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+    $(function(){
+        setInterval(function () {
+            function footerPosition(){
+                $("footer").removeClass("fixed-bottom");
+                var contentHeight = document.body.clientHeight ,//网页正文全文高度
+                    winHeight = window.innerHeight;//可视窗口高度，不包括浏览器顶部工具栏
+                console.log(contentHeight);
+                console.log(winHeight);
+                if(!(contentHeight > winHeight)){
+                    //当网页正文高度小于可视窗口高度时，为footer添加类fixed-bottom
+                    $("footer").addClass("fixed-bottom");
+                    console.log(contentHeight);
+                    console.log(winHeight);
+                }
+            }
+            footerPosition();
+            // $(window).resize(footerPosition);
+        },100);
+        $(function () {
+            setTimeout(function () {
+                var loc = location.href;
+                var n1 = loc.length;//地址的总长度
+                var n2 = loc.indexOf("=");//取得=号的位置
+                var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
+                var num=parseInt(id);
+                if (isNaN(num)) {
+                    console.log(1);
+                }else {
+                    $("#qing").val(num);
+                    var zhi=$("#qing").val(num);
+                    if (zhi!=""){
+                        $("#jieshui").click(jieshui());
+                        $("#qing").click(jisuan());
+                    }
+                }
+            })
+        });
+    });
+</script>
+<script type="text/javascript">
+    window.onscroll=function(){
+        var topScroll =$(document).scrollTop();//滚动的距离,距离顶部的距离
+        var nav  = document.getElementById("nav");//获取到导航栏id
+        var nav_lf=document.getElementById("nav_lf");
+        var active=document.getElementById("active");
+        if(topScroll > 80){  //当滚动距离大于250px时执行下面的东西
+            console.log(11111111);
+            nav.style.position = 'fixed';
+            nav.style.border='1px solid #E1E3E6';
+            nav.style.top = '0';
+            nav.style.zIndex = '9999';
+            nav.style.backgroundColor='#ffffff';
+            nav_lf.src="images/nav/logo.png";
+            a1.style.color='black';
+            a4.style.color='black';
+            a3.style.color='black';
+            a2.style.color='black';
+            // a5.style.backgroundColor='#3385ff';
+            a5.style.color='black';
+            p6.style.color='black';
+            // a2.classList.add("ac_bo");
+            nav_rt_tel.src='images/nav/tel.png';
+            nb_img.src='images/nav/m_nav_menu_black.png';
+        }else{//当滚动距离小于250的时候执行下面的内容，也就是让导航栏恢复原状
+            nav.style.position = 'static';
+            nav.style.border='none';
+            nav.style.backgroundColor='transparent';
+            nav_lf.src="images/nav/logo_white.png";
+            a1.style.color='#ffffff';
+            a2.style.color='#ffffff';
+            a3.style.color='#ffffff';
+            a4.style.color='#ffffff';
+            // a5.style.backgroundColor='#ffffff';
+            a5.style.color='#ffffff';
+            p6.style.color='#ffffff';
+            // a2.classList.remove("ac_bo");
+            nav_rt_tel.src='images/nav/tel_white.png';
+            nb_img.src='images/nav/m_nav_menu.png';
+
+        }
+    }
+    $("#nav_bar").click(function(){
+        // $("#nav_rt").slideToggle();
+        if($("#nav_rt").is(":hidden")){
+            $("#nav_rt").slideDown();
+            $("body").addClass("no");
+            $("html").addClass("no");
+        }else{
+            $("#nav_rt").slideUp();
+            $("body").removeClass("no");
+            $("html").removeClass("no");
+        }
+
+        var topScroll =$(document).scrollTop();//滚动的距离,距离顶部的距离
+        if(topScroll > 80){  //当滚动距离大于250px时执行下面的东西
+            console.log(11111111);
+            a1.style.color='#ffffff';
+            a2.style.color='#ffffff';
+            a3.style.color='#ffffff';
+            a4.style.color='#ffffff';
+            // a5.style.backgroundColor='#3385ff';
+            a5.style.color='#ffffff';
+        }else {
+            // a5.style.backgroundColor='#3385ff';
+            a5.style.color='#ffffff';
+        }
+    });
+</script>
+</html>

@@ -1,0 +1,595 @@
+body,a,ul,li,h1,h2,h3,h4,h5,h6,p,input,button{
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+}
+input,button{
+    outline:none;
+}
+
+body{
+    background-color: #ffffff;
+}
+a{
+    text-decoration:none;
+}
+ul{
+    list-style: none;
+}
+/*头部*/
+header{
+    width: 100%;
+    height: 550px;
+    background-color: #ffffff;
+    background: url("../images/exper/us_banner.jpg") no-repeat;
+    background-size:100% 100%;
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap:wrap;
+    -webkit-flex-wrap:wrap;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    justify-content: center;
+    -webkit-justify-content:center ;
+}
+/*导航栏*/
+#nav{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap:wrap;
+    -webkit-flex-wrap:wrap;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    justify-content: center;
+    -webkit-justify-content:center ;
+}
+.nav{
+    width: 1200px;
+    height: 80px;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    justify-content:space-between ;
+    -webkit-justify-content:space-between ;
+}
+.nav_lt img{
+    width: 126px;
+    height: 36px;
+    margin-top: 22px;
+}
+.nav_rt{
+    width: 50%;
+    height: 80px;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    justify-content:space-around ;
+    -webkit-justify-content:space-around;
+}
+.nav_rt>li{
+    width: 100px;
+    text-align: center;
+}
+.nav_rt>li a{
+    font-size: 16px;
+    font-weight: 500;
+    color:#FFFFFF;
+    line-height: 80px;
+}
+.active>a{
+    padding: 10px;
+    border-bottom: 4px solid #FFFFFF;
+}
+.nav_bu{
+    display: inline-block;
+    width: 124px;
+    height: 36px;
+    background:rgba(255,255,255,1);
+    border-radius: 4px;
+    margin-top: 22px;
+}
+.nav_bu{
+    color:rgba(70,114,235,1);
+    font-size: 14px;
+    text-align: center;
+    line-height: 36px;
+}
+/*悬浮菜单下边框*/
+.ac_bo{
+    border-bottom: 4px solid #4276ED !important;
+}
+/*移动端收缩按钮*/
+.nav_bar{
+    display: none;
+    margin-top: 16px;
+}
+/*轮播部分*/
+.lunbo{
+    width: 1200px;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    justify-content:space-between ;
+    -webkit-justify-content:space-between;
+}
+.lun_lf>h4{
+    font-size:48px;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height:100px;
+}
+.lun_rt>.img2{
+    margin-left: 84px;
+}
+/*PDS招聘服务模式*/
+.moshi{
+    height: 638px;
+    width: 100%;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:column;
+    -webkit-flex-direction: column;
+    align-items: center;
+    -webkit-align-items: center;
+}
+.moshi>div{
+    width: 1200px;
+}
+.moshi>div>h1{
+    text-align: center;
+    font-size: 38px;
+    color: #0D0D0D;
+    padding-top: 90px;
+    margin-bottom: 14px;
+    font-weight: 400;
+}
+.moshi>div>p{
+    text-align: center;
+    margin-bottom: 52px;
+    font-size:16px;
+    font-weight:400;
+    color:rgba(97,97,97,1);
+    line-height:22px;
+}
+.moshi>div>.moshi_pc{
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    justify-content:center;
+    -webkit-justify-content:center;
+}
+.moshi>div>.moshi_pc>img{
+    height: 330px;
+    width: 600px;
+}
+/*智鸟代招*/
+.daizhao{
+    height: 513px;
+    width: 100%;
+    background:rgba(247,249,252,1);
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:column;
+    -webkit-flex-direction: column;
+    align-items: center;
+    -webkit-align-items: center;
+}
+.daizhao>div{
+    width: 1200px;
+}
+.daizhao>div>h1{
+    text-align: center;
+    font-size: 38px;
+    color: #0D0D0D;
+    padding-top: 90px;
+    margin-bottom: 14px;
+    font-weight: 400;
+}
+.daizhao>div>p{
+    text-align: center;
+    margin-bottom: 52px;
+    font-size:16px;
+    font-weight:400;
+    color:rgba(97,97,97,1);
+    line-height:22px;
+}
+.daizhao>div>.daizhao_pc{
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    justify-content:center;
+    -webkit-justify-content:center;
+}
+.daizhao>div>.daizhao_pc>img{
+    height: 200px;
+    width: 800px;
+}
+/*智鸟直招*/
+.zhizhao{
+    height: 1121px;
+    width: 100%;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:column;
+    -webkit-flex-direction: column;
+    align-items: center;
+    -webkit-align-items: center;
+}
+.zhizhao>div{
+    width: 1200px;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:column;
+    -webkit-flex-direction: column;
+    align-items: center;
+    -webkit-align-items: center;
+}
+.zhizhao>div>h1{
+    text-align: center;
+    font-size: 38px;
+    color: #0D0D0D;
+    padding-top: 90px;
+    margin-bottom: 14px;
+    font-weight: 400;
+}
+.zhizhao>div>p{
+    text-align: center;
+    margin-bottom: 52px;
+    font-size:16px;
+    font-weight:400;
+    color:rgba(97,97,97,1);
+    line-height:22px;
+}
+.zhizhao>div>.zhizhao_pc{
+    width: 1120px;
+    height: 800px;
+    background: url("../images/recruitment/recruitment_zhizhao.png");
+}
+.zhi_rt{
+    float: right;
+    width: 450px;
+    height: 500px;
+    margin-top: 230px;
+}
+.zhi_rt ul{
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    margin-bottom: 83px;
+}
+.zhi_rt ul>li{
+    margin-right: 20px;
+}
+.zhi_rt ul>li>h6{
+    font-size:24px;
+    font-weight:400;
+    color:rgba(53,53,53,1);
+    line-height:33px;
+}
+.zhi_rt ul>li>p{
+    font-size:16px;
+    font-weight:400;
+    color:rgba(97,97,97,1);
+    line-height:22px;
+}
+/*我们的优势*/
+.youshi{
+    width: 100%;
+    height: 518px;
+    background:rgba(247,249,252,1);
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:column;
+    -webkit-flex-direction: column;
+    align-items: center;
+    -webkit-align-items: center;
+}
+.youshi>div{
+    width: 1200px;
+}
+.youshi>div>h1{
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 70px;
+    font-size: 38px;
+    color: #0D0D0D;
+    font-weight: 400;
+}
+.youshi>div>div{
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    justify-content:center ;
+    -webkit-justify-content:center;
+}
+.youshi>div>div>ul{
+    width: 100%;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    justify-content:space-around ;
+    -webkit-justify-content:space-around;
+    text-align: center;
+}
+.youshi>div>div>ul>li{
+    width: 20%;
+}
+.youshi>div>div>ul>li>h5{
+    margin-top: 15px;
+    font-size: 22px;
+    color: #0D0D0D;
+    margin-bottom: 15px;
+}
+.youshi>div>div>ul>li>p{
+    font-size: 14px;
+    color: #999999;
+    font-weight: 500;
+}
+/*合作客户*/
+.kehu{
+    height:576px;
+    background:rgba(255,255,255,1);
+    padding-bottom: 100px;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:column;
+    -webkit-flex-direction: column;
+    align-items: center;
+    -webkit-align-items: center;
+}
+.kehu>div{
+    width: 1200px;
+}
+.kehu>div>h1{
+    text-align: center;
+    padding-top: 100px;
+    margin-bottom: 70px;
+    font-size: 38px;
+    color: #0D0D0D;
+    font-weight: 400;
+}
+.kehu>div>div{
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    justify-content:center ;
+    -webkit-justify-content:center;
+}
+.kehu>div>div>ul{
+    width: 100%;
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    justify-content:space-around ;
+    -webkit-justify-content:space-around;
+    text-align: center;
+}
+.kehu>div>div>ul>li{
+    width: 25%;
+    margin-bottom: 10px;
+}
+.kehu>div>div>ul>li>img{
+    width: 95%;
+}
+/*尾部*/
+footer{
+    width: 100%;
+    height:212px;
+    background:#282828;
+    text-align: center;
+}
+.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    width:100%;
+}
+footer>h1{
+    font-size:28px;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:40px;
+    padding-top: 48px;
+}
+footer>div{
+    display: flex;
+    display: -webkit-flex;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    justify-content:center ;
+    -webkit-justify-content:center;
+    margin-top: 13px;
+}
+footer ul{
+    width: 400px;
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: nowrap;
+    -webkit-flex-wrap: nowrap;
+    flex-direction:row;
+    -webkit-flex-direction: row;
+    justify-content:space-between ;
+    -webkit-justify-content:space-between;
+}
+footer ul span{
+    display: inline-block;
+    height: 18px;
+    font-size:18px;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:18px;
+}
+footer>p{
+    height:14px;
+    font-size:14px;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:14px;
+    margin-top: 30px;
+}
+@media screen and (max-width: 1200px) {
+    /*导航*/
+    .nav_lt img {
+        margin-left: 20px;
+    }
+    .nav_bar{
+        display: block;
+        margin-right: 20px;
+    }
+    .no{
+        overflow: hidden;
+    }
+    #nav_rt{
+        display: none;
+    }
+    .nav_rt{
+        width: 263px;
+        height: 462px;
+        background:#252A33;
+        border-radius:8px 0px 8px 8px;
+        opacity:0.85;
+        position: fixed;
+        top: 70px;
+        right:20px;
+        display: flex;
+        display: -webkit-flex;
+        flex-direction:column;
+        -webkit-flex-direction:column;
+        z-index: 1000;
+    }
+    .nav_rt>li{
+        width:191px;
+        height:86px;
+        font-size:24px;
+        line-height:86px;
+        padding-left: 20px;
+        text-align: left !important;
+    }
+    .nav_rt>li a{
+        font-size:24px;
+        line-height: 24px;
+        padding: 0;
+        padding-left: 16px;
+
+    }
+    .nav_bu{
+        font-size: 24px;
+        margin-top: 0;
+        margin-bottom: 29px;
+        width: 191px;
+        height:60px;
+        line-height: 60px;
+        margin-left: 36px;
+        background-color: #4276ED;
+        color: #FFFFFF;
+    }
+    .ac_bo{
+        border-bottom: none !important;
+    }
+    .active{
+        padding-left: 14px !important;
+    }
+    .active>a{
+        border-bottom: none !important;
+        border-left: 6px solid #FFFFFF;
+    }
+    /*轮播部分*/
+    .lunbo{
+        display: flex;
+        display: -webkit-flex;
+        flex-wrap: nowrap;
+        -webkit-flex-wrap: nowrap;
+        flex-direction:column;
+        -webkit-flex-direction: column;
+        justify-content:center ;
+        -webkit-justify-content:center;
+    }
+    .lun_lf,.lun_rt{
+        text-align: center;
+
+    }
+    .lun_rt>.img2{
+        margin-left: 30px !important;
+    }
+    /*PDS招聘服务模式*/
+    .moshi>div{
+        width: 90%;
+    }
+    /*智鸟代招*/
+    .daizhao>div{
+        width: 90%;
+    }
+    .daizhao_pc>img{
+        width: 100% !important;
+    }
+    /*智鸟直招*/
+    .zhizhao{
+        height: 900px;
+    }
+    .zhizhao>div{
+        width: 90%;
+    }
+    .zhizhao_pc{
+        width: 100% !important;
+        height: 514px !important;
+        background: url("../images/recruitment/m_recruitment_zhizhao.png") no-repeat !important;
+    }
+    .zhi_rt{
+        width: 200px;
+        margin-top: 140px;
+    }
+    .zhi_rt ul{
+        margin-bottom: 40px;
+    }
+    .zhi_rt h6{
+        font-size: 18px !important;
+    }
+    .zhi_rt p{
+        font-size: 11px !important;
+    }
+    /*我们的优势*/
+    .youshi{
+        height: 650px !important;
+    }
+    .youshi>div{
+        width: 100%;
+        height: 650px !important;
+    }
+    .youshi ul{
+        flex-wrap: wrap;
+        -webkit-flex-wrap: wrap;
+    }
+    .youshi li{
+        width: 33% !important;
+        margin-bottom:30px;
+    }
+    /*合作客户*/
+    .kehu{
+        height: 850px;
+    }
+    .kehu>div{
+        width: 100%;
+    }
+    .kehu ul{
+        width: 100%;
+        flex-wrap: wrap;
+        -webkit-flex-wrap: wrap;
+    }
+    .kehu ul>li{
+        width: 50% !important;
+        margin-bottom: 20px;
+    }
+}

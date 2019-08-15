@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>智鸟工作   一站式灵活用工解决方案</title>
+    <META name="keywords" content="灵活用工、灵活经营、智鸟工作、灵活用工平台、企业灵活用工、灵活用工的用工形式、企业灵活用工解决方案、灵活用工管理、灵活用工外包、灵活用工行业解决方案、灵活用工系统、SaaS系统">
+    <META name="Description" content="智鸟工作，为您提供一站式灵活用工解决方案，平台化用工\专业合规\降本增效。">
+    <link rel="shortcut icon" href="images/nav/bitbug_favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <link rel="stylesheet" href="node_modules/layui/css/layui.css" media="all">
+    <!--<link rel="stylesheet" href="css/meSlider.css">-->
+</head>
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    input[type="number"]{ -moz-appearance: textfield; }
+</style>
+<script type="text/javascript">
+    var phoneWidth =  parseInt(window.screen.width);
+    var phoneScale = phoneWidth/640;
+    var ua = navigator.userAgent;
+    if (/Android (\d+\.\d+)/.test(ua)){
+        var version = parseFloat(RegExp.$1);
+        if(version>2.3){
+            document.write('<meta name="viewport" content="width=640, minimum-scale = '+phoneScale+', maximum-scale = '+phoneScale+', target-densitydpi=device-dpi">');
+        }else{
+            document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+        }
+    } else {
+        document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+    }
+</script>
+<script src="js/exper.js"></script>
+<body>
+    <!--头部-->
+    <header>
+        <div style="height: 80px;width: 100%">
+            <div id="nav">
+                <div class="nav">
+                    <div class="nav_lt">
+                        <a href="index.html"><img id="nav_lf" src="images/nav/logo_white.png"></a>
+                    </div>
+                    <div class="nav_bar" id="nav_bar">
+                        <img id="nb_img" src="images/nav/m_nav_menu.png">
+                    </div>
+                    <ul class="nav_rt" id="nav_rt">
+                        <li class="active"><a style="color: #FFFFFF;" id="a1" href="index.html">首页</a></li>
+                        <li><a id="a2" href="product.html">产品服务</a></li>
+                        <li><a id="a3" href="solution.html">行业解决方案</a></li>
+                        <li><a id="a4" href="about.html">关于我们</a></li>
+                        <li><a href="https://open.birdwork.com" target="_blank" id="a5">登录</a></li>
+                        <li class="nav-tel">
+                            <img id="nav_rt_tel" src="images/nav/tel_white.png">
+                            <a id="p6">400-806-5355</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="lunbo">
+            <div class="layui-carousel" id="test1">
+                <div carousel-item>
+                    <div class="back1">
+                        <h1>一站式灵活用工解决方案</h1>
+                        <h3>平台化用工 \ 专业合规 \ 降本增效</h3>
+                    </div>
+                    <div class="back2">
+                        <h1>未来已来</h1>
+                        <p>
+                            人口红利消失，招聘越来越难<br>
+                            社保征税，用工越来越贵<br>
+                            新生代希望更自由的就业方式<br>
+                            “平台+个体”灵活就业时代已来
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--主体-->
+    <section>
+        <!--一站式灵活就业服务解决方案-->
+        <div class="jiejue">
+            <div>
+                <h1>一站式灵活就业服务解决方案</h1>
+                <div class="jiejue_pc">
+                    <div class="jp_top">
+                        <img src="images/index/outsourcing.png">
+                        <h5>灵活经营众包解决方案</h5>
+                        <ul>
+                            <li>企业进行组织架构调整，改变为多元化用工模式，可大幅度降低用工成本：</li>
+                            <li> · 把非核心的任务或项目型的工作，转为外包；</li>
+                            <li> · 把临时、用工波动大、技能要求低的工作，转为灵活用工；</li>
+                            <li>智鸟基于互联网平台帮企业实现灵活用工外包、管理和支付费用，并为企业合规开具增值税专用发票。</li>
+                        </ul>
+                    </div>
+                    <div class="jp_bo">
+                        <img src="images/index/money.png">
+                        <h5>灵活用工薪税服务</h5>
+                        <p>
+                            企业在使用智客（包括：自由职业者、灵活就业者和个体经营者等群体），
+                            结算费用时无法取得进项发票，可以通过智鸟为智客批量支付费用并合法完税，并为企业合规开具增值税专用发票。
+                        </p>
+                    </div>
+                </div>
+                <div class="jiejue_yd">
+                    <div class="jj_top">
+                        <h5>灵活经营众包解决方案</h5>
+                        <ul>
+                            <li>企业进行组织架构调整，改变为多元化用工模式，可大幅度降低用工成本：</li>
+                            <li> · 把非核心的任务或项目型的工作，转为外包；</li>
+                            <li> · 把临时、用工波动大、技能要求低的工作，转为灵活用工；</li>
+                            <li>智鸟基于互联网平台帮企业实现灵活用工外包、管理和支付费用，并为企业合规开具增值税专用发票。</li>
+                        </ul>
+                    </div>
+                    <div class="jj_bo">
+                        <h5>灵活用工薪税服务</h5>
+                        <p>
+                            企业在使用智客（包括：自由职业者、灵活就业者和个体经营者等群体），
+                            结算费用时无法取得进项发票，可以通过智鸟为智客批量支付费用并合法完税，并为企业合规开具增值税专用发票。
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--灵活经营众包解决方案-->
+        <div class="fangan">
+            <div>
+                <h1>平台灵活用工解决方案</h1>
+                <div class="fangan_pc">
+                    <img src="images/index/index_crowdsourcing.png">
+                </div>
+                <div class="fangan_yd">
+                    <img src="images/index/index_crowdsourcing_yd.png">
+                </div>
+            </div>
+        </div>
+        <!--我们的优势-->
+        <div class="youshi">
+            <div>
+                <h1>我们的优势</h1>
+                <div>
+                    <ul class="">
+                        <li class="">
+                            <img src="images/index/professional.png">
+                            <h5>专业</h5>
+                            <p>1V1专业顾问服务<br>为企业提供场景化解决方案</p>
+                        </li>
+                        <li class="">
+                            <img src="images/index/compliance.png">
+                            <h5>合规</h5>
+                            <p>合规闭环服务<br> 保证所有收入合法合规完税</p>
+                        </li>
+                        <li class="">
+                            <img src="images/index/fast(1).png">
+                            <h5>便捷</h5>
+                            <p>自主研发系统<br> 全程在线操作，便捷高效</p>
+                        </li>
+                        <li class="">
+                            <img src="images/index/safe(1).png">
+                            <h5>安全</h5>
+                            <p>资金银行监管<br> 确保企业资金安全支付</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--合作客户-->
+        <div class="kehu">
+            <div>
+                <h1>服务客户</h1>
+                <div class="kehu_pc">
+                    <ul>
+                        <li>
+                            <ul>
+                                <li><img src="images/index/hi.png"></li>
+                                <li><img src="images/index/kfc.png"></li>
+                                <li><img src="images/index/xb.png"></li>
+                                <li><img src="images/index/bn.png"></li>
+                                <li><img src="images/index/ksf.png"></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul>
+                                <li><img src="images/index/adidas.png"></li>
+                                <li><img src="images/index/sf.png"></li>
+                                <li><img src="images/index/post.png"></li>
+                                <li><img src="images/index/mt.png"></li>
+                                <li><img src="images/index/jd.png"></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul>
+                                <li><img src="images/index/yh.png"></li>
+                                <li><img src="images/index/inter.png"></li>
+                                <li><img src="images/index/courtyard.png"></li>
+                                <li><img src="images/index/hilton.png"></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="kehu_yd">
+                    <ul>
+                        <li><img src="images/index/hi.png"></li>
+                        <li><img src="images/index/kfc.png" style="width: 80px;height: 80px"></li>
+                        <li><img src="images/index/xb.png"  style="width: 80px;height: 80px"></li>
+                        <li><img src="images/index/bn.png"  style="width: 80px;height: 80px"></li>
+                        <li><img src="images/index/ksf.png"></li>
+                        <li><img src="images/index/adidas.png"></li>
+                        <li><img src="images/index/sf.png"></li>
+                        <li><img src="images/index/post.png"></li>
+                        <li><img src="images/index/mt.png"></li>
+                        <li><img src="images/index/jd.png"></li>
+                        <li><img src="images/index/yh.png"></li>
+                        <li><img src="images/index/inter.png"></li>
+                        <li><img src="images/index/courtyard.png"></li>
+                        <li><img src="images/index/hilton.png"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--我有需要-->
+        <div class="need">
+            <div>
+                <h1>我有需要</h1>
+                <form>
+                    <p>姓名：<input class="name" type="text"><span id="name"></span></p>
+                    <p>联系方式：<input class="phone" type="number"><span id="phone"></span></p>
+                    <p>公司名称：<input class="company" type="text"><span id="company"></span></p>
+                </form>
+                <a class="submit">提交意向</a>
+            </div>
+        </div>
+        <!--侧边导航栏-->
+        <div class="sidebar">
+            <a href="exper.html"><img src="images/bot/calculator.png"></a>
+            <div>
+                <img src="images/bot/Subscribe.png">
+                <div class="pop">
+                    <img src="images/bot/weChat_pop.jpg">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--尾部-->
+    <footer>
+        <div class="footer-pc">
+            <ul>
+                <li>
+                    <img src="images/bot/zy.png">
+                    <div>
+                        <h2>专业</h2>
+                        <p>1V1专业顾问服务<br>为企业提供场景化解决方案</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="images/bot/hg.png">
+                    <div>
+                        <h2>合规</h2>
+                        <p>合规闭环服务
+                            <br>保证所有收入合法合规完税</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="images/bot/fast.png">
+                    <div>
+                        <h2>便捷</h2>
+                        <p>自主研发系统
+                            <br>全程在线操作，便捷高效</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="images/bot/safe.png">
+                    <div>
+                        <h2>安全</h2>
+                        <p>资金银行监管
+                            <br>确保企业资金安全支付</p>
+                    </div>
+                </li>
+            </ul>
+            <div class="footer-bot">
+                <div class="footer-top">
+                    <img src="images/bot/logo_footer.png">
+                    <div>
+                        <h5>一站式灵活用工解决方案</h5>
+                        <p>平台化用工 \ 合法合规 \ 降本增效</p>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <p></p>
+                    <div>
+                        <h5>商务咨询：</h5>
+                        <h1>400-806-5355</h1>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <p></p>
+                    <div>
+                        <h5>关注我们：</h5>
+                        <div class="code">
+                            <div class="weChat">
+                                <img src="images/bot/wechat.png">
+                                <div class="pop">
+                                    <img src="images/bot/weChat_pop.jpg">
+                                </div>
+                            </div>
+                            <div class="weibo">
+                                <img src="images/bot/weibo.png">
+                                <div class="pop">
+                                    <img src="images/bot/weibo_pop.png">
+                                </div>
+                            </div>
+                            <div class="one">
+                                <img src="images/bot/one.png">
+                                <div class="pop">
+                                    <img src="images/bot/one_pop.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-yd">
+            <div class="footer-top">
+                <img src="images/bot/logo_footer.png">
+                <div>
+                    <h5>一站式灵活用工解决方案</h5>
+                    <p>平台化用工 \ 合法合规 \ 降本增效</p>
+                </div>
+            </div>
+            <ul>
+                <li>
+                    <img src="images/bot/zy.png">
+                    <div>
+                        <h2>专业</h2>
+                        <p>1V1专业顾问服务<br>为企业提供场景化解决方案</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="images/bot/hg.png">
+                    <div>
+                        <h2>合规</h2>
+                        <p>合规闭环服务
+                            <br>保证所有收入合法合规完税</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="images/bot/fast.png">
+                    <div>
+                        <h2>便捷</h2>
+                        <p>自主研发系统
+                            <br>全程在线操作，便捷高效</p>
+                    </div>
+                </li>
+                <li>
+                    <img src="images/bot/safe.png">
+                    <div>
+                        <h2>安全</h2>
+                        <p>资金银行监管
+                            <br>确保企业资金安全支付</p>
+                    </div>
+                </li>
+            </ul>
+            <div class="footer-bot">
+                <div>
+                    <p></p>
+                    <div>
+                        <h5>商务咨询：</h5>
+                        <h1>400-806-5355</h1>
+                    </div>
+                </div>
+                <div>
+                    <p></p>
+                    <div>
+                        <h5>关注我们：</h5>
+                        <div class="code">
+                            <div class="weChat">
+                                <img src="images/bot/wechat.png">
+                                <div class="pop">
+                                    <img src="images/bot/weChat_pop.jpg">
+                                </div>
+                            </div>
+                            <div class="weibo">
+                                <img src="images/bot/weibo.png">
+                                <div class="pop">
+                                    <img src="images/bot/weibo_pop.png">
+                                </div>
+                            </div>
+                            <div class="one">
+                                <img src="images/bot/one.png">
+                                <div class="pop">
+                                    <img src="images/bot/one_pop.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p>Copyright©2018 Birdwork. 北京蓝智才服网络科技有限公司保留所有权利&nbsp;|&nbsp; 京icp备18055652号</p>
+    </footer>
+</body>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+    window.onscroll=function(){
+        var topScroll =$(document).scrollTop();//滚动的距离,距离顶部的距离
+        var nav  = document.getElementById("nav");//获取到导航栏id
+        var nav_lf=document.getElementById("nav_lf");
+        var active=document.getElementById("active");
+        if(topScroll > 80){  //当滚动距离大于250px时执行下面的东西
+            console.log(11111111);
+            nav.style.position = 'fixed';
+            nav.style.border='1px solid #E1E3E6';
+            nav.style.top = '0';
+            nav.style.zIndex = '9999';
+            nav.style.backgroundColor='#ffffff';
+            nav_lf.src="images/nav/logo.png";
+            a4.style.color='black';
+            a2.style.color='black';
+            a3.style.color='black';
+            a1.style.color='#3385ff';
+            // a5.style.backgroundColor='#3385ff';
+            a5.style.color='black';
+            p6.style.color='black';
+            a1.classList.add("ac_bo");
+            nav_rt_tel.src='images/nav/tel.png';
+            nb_img.src='images/nav/m_nav_menu_black.png';
+        }else{//当滚动距离小于250的时候执行下面的内容，也就是让导航栏恢复原状
+            nav.style.position = 'static';
+            nav.style.position = 'absolute';
+            nav.style.border='none';
+            nav.style.backgroundColor='transparent';
+            nav_lf.src="images/nav/logo_white.png";
+            a1.style.color='#ffffff';
+            a2.style.color='#ffffff';
+            a3.style.color='#ffffff';
+            a4.style.color='#ffffff';
+            // a5.style.backgroundColor='#ffffff';
+            a5.style.color='#ffffff';
+            p6.style.color='#ffffff';
+            a1.classList.remove("ac_bo");
+            nav_rt_tel.src='images/nav/tel_white.png';
+            nb_img.src='images/nav/m_nav_menu.png';
+        }
+    }
+    $("#nav_bar").click(function(){
+        // $("#nav_rt").slideToggle();
+        if($("#nav_rt").is(":hidden")){
+            $("#nav_rt").slideDown();
+            $("body").addClass("no");
+            $("html").addClass("no");
+        }else{
+            $("#nav_rt").slideUp();
+            $("body").removeClass("no");
+            $("html").removeClass("no");
+        }
+
+        var topScroll =$(document).scrollTop();//滚动的距离,距离顶部的距离
+        if(topScroll > 80){  //当滚动距离大于250px时执行下面的东西
+            console.log(11111111);
+            a1.style.color='#ffffff';
+            a2.style.color='#ffffff';
+            a3.style.color='#ffffff';
+            a4.style.color='#ffffff';
+            // a5.style.backgroundColor='#3385ff';
+            a5.style.color='#ffffff';
+            p6.style.color='#ffffff';
+        }else {
+            // a5.style.backgroundColor='#3385ff';
+            a5.style.color='#ffffff';
+        }
+    });
+    // $(function() {
+    //     setTimeout(function () {
+    //         $("header").css("background-image","url(images/index/index_banner1.png)");
+    //         console.log(1);
+    //     }, 1000);
+    // });
+    // 传值
+    function index(){
+        location.href="exper.html?"+"txt="+encodeURI($("#index_int").val());
+    }
+</script>
+<!--轮播图组件-->
+<script src="node_modules/layui/layui.js"></script>
+<script>
+    layui.use('carousel', function(){
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#test1'
+            ,width: '100%' //设置容器宽度
+            ,height: '640px'
+            ,arrow: 'always' //始终显示箭头
+            // ,full: 'true'
+            ,interval: '4000'
+            ,arrow: 'hover'
+        });
+    });
+</script>
+<script src="node_modules/layer/layer.js"></script>
+<script>
+    $(function(){
+
+        $('.submit').click(function(){
+            if($(".name").val() == ''){
+                $("#name").text("*姓名不能为空");
+            } else if($(".phone").val() == '') {
+                $("#phone").text("*联系方式不能为空");
+            } else if($(".company").val() == '') {
+                $("#company").text("*公司名称不能为空");
+            }else{
+                $.ajax({
+                    type: "GET",
+                    url: "https://api.open.birdwork.com/api/mp/user/intent",
+                    data: {name:$(".name").val(), phone:$(".phone").val(), company:$(".company").val()},
+                    dataType: "json",
+                    success: function(data){
+                        // html = '';
+                        // html += "<div class='success'>" +
+                        //     "<img class='ok' src='images/index/ok.png'>" +
+                        //     "<h5>提交成功，我们的工作人员会及时联系您！</h5>" +
+                        //     "</div>";
+                        // console.log(html)
+                        // $('.need').html(html);
+
+                        //弹出一个页面层
+                        layer.open({
+                            type: 1,
+                            area: ['600px', '360px'],
+                            shadeClose: true, //点击遮罩关闭
+                            content: "<div class='success'>" +
+                                "<img class='ok' src='images/index/ok.png'>" +
+                                "<h5>提交成功，我们的工作人员会及时联系您！</h5>" +
+                                "</div>"
+                        });
+                        $("#name").text("");
+                        $("#phone").text("");
+                        $("#company").text("");
+                        $(".name").val("");
+                        $(".phone").val("");
+                        $(".company").val("");
+                    }
+
+                });
+            }
+
+
+        });
+
+    });
+</script>
+</html>

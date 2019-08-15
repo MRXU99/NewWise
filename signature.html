@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传签名</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1"/>-->
+</head>
+<style>
+    html,body{
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
+    #canvas{
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+    #clearCanvas{
+        color: #ffffff;
+        width: 50%;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        font-size: 18px;
+        background: #8D8D8D;
+        z-index: 1;
+    }
+    #saveCanvas{
+        color: #ffffff;
+        width: 50%;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        position: fixed;
+        background: #01AAED;
+        bottom: 0;
+        right: 0;
+        font-size: 18px;
+        z-index: 1;
+    }
+    @media screen and (max-width: 1200px){
+        html{
+            font-size: 24px;
+        }
+    }
+</style>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+
+</script>
+<body>
+<div id="signature">
+    <canvas id="canvas"></canvas>
+    <div id="clearCanvas">重置</div>
+    <div id="saveCanvas">提交</div>
+</div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+	new Vue({   //创建一个Vue的实例
+		el: "#signature", //挂载
+		data: {     //数据
+            imgSrc:''
+		},
+        created(){
+
+        },
+        mounted() {
+					this.user = JSON.parse(window.sessionStorage.getItem("user"));
+					if (this.user) {
+						this.user.appletsId = this.user.appletsId ? this.user.appletsId : '',
+                        this.user.appletsUser.id = this.user.appletsUser.id ? this.user.appletsUser.id : 0,
+                        this.$notify({
+                            message: '请完成签名',
+                            type: 'success',
+                            offset: 50,
+                            duration: 0
+                        });
+					}
+            this.lineCanvas({
+                el: document.getElementById("canvas"),//绘制canvas的父级div
+                clearEl: document.getElementById("clearCanvas"),//清除按钮
+                saveEl: document.getElementById("saveCanvas"),//保存按钮
+            });
+        },
+		methods: {
+		    lineCanvas(obj) {
+            this.linewidth = 3;
+            this.color = "#000";
+            this.background = "#fff";
+            for (var i in obj) {
+                this[i] = obj[i];
+            };
+            this.canvas = this.el;
+            this.cxt = this.canvas.getContext("2d");
+            this.canvas.width = document.body.clientWidth;
+            this.canvas.height = document.body.clientHeight;
+            this.cxt.strokeStyle = this.color;
+            this.cxt.lineWidth = this.linewidth;
+            this.cxt.lineCap = "round";
+            this.cxt.lineJoin = "round";
+            this.cxt.fillStyle = this.background;
+            this.cxt.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            //开始绘制
+            this.canvas.addEventListener("touchstart", function(e) {
+                this.cxt.beginPath();
+                this.cxt.moveTo(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
+                e.preventDefault();
+            }.bind(this), false);
+            //绘制中
+            this.canvas.addEventListener("touchmove", function(e) {
+                this.cxt.lineTo(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
+                this.cxt.stroke();
+                e.preventDefault();
+            }.bind(this), false);
+            //结束绘制
+            this.canvas.addEventListener("touchend", function(e) {
+                this.cxt.closePath();
+                e.preventDefault();
+            }.bind(this), false);
+            //清除画布
+            this.clearEl.addEventListener("click", function() {
+                this.cxt.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            }.bind(this), false);
+            //保存图片，直接转base64
+            this.saveEl.addEventListener("click", function() {
+                var _this = this;
+                var imgBase64 = this.canvas.toDataURL('image/png');
+                this.canvas.toBlob(function (res) {
+                    console.log(imgBase64,res,_this.user.appletsId,_this.user.appletsUser.id);
+                    var params = new FormData();
+                    params.append('appletsId',_this.user.appletsUser.id);
+                    params.append('token',_this.user.appletsId);
+                    params.append('file',res);
+                    axios.post('https://api.open.birdwork.com/api/yj/auth/upload',params,{
+                        headers:{'Content-Type':'multipart/form-data'}
+                    })
+                    .then((response) => {
+                        if (response.data.code == 0) {
+                            _this.$notify({
+                                message: '您已成功上传签名',
+                                type: 'success',
+                                offset: 50,
+                                duration: 0
+                            });
+                            window.sessionStorage.setItem("isSignature", true);
+                            location.href="signSuc.html"
+                        } else {
+                            this.$message({
+                                type: 'error',
+                                message: response.data.message
+                            })
+                        }
+
+                    })
+                });
+            }.bind(this), false);
+            },
+		    init(){
+
+            },
+            clear(){
+
+            },
+            submit(){
+
+            },
+		}
+	})
+</script>
+

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>实名认证</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.0.1/weui.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+</head>
+<style>
+    html {
+        width: 100%;
+        height: 100%;
+    }
+    body {
+        background-color: #ededed;
+    }
+    #login{
+        margin: 10px auto;
+        padding: 15px;
+        text-align: center;
+    }
+</style>
+<body>
+<div id="login">
+<!--    <div class="upload">
+        <div>
+            <div class="upload-container">
+                <el-upload
+
+                        :with-credentials="true"
+                        action="https://api.open.birdwork.com/api/yj/upload"
+                        accept="image/jpeg,image/gif,image/png"
+                        :http-request="handleIdCardSuccessFront"
+                        :show-file-list="false"
+                        >
+                    <img v-if="form.appletsIdNumFront" :src="form.appletsIdNumFront" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+                &lt;!&ndash;:data="{token: user.appletsId, appletsId: user.appletsUser.id, type: 1}"&ndash;&gt;
+                &lt;!&ndash;:on-success="handleIdCardSuccess"&ndash;&gt;
+            </div>
+            <span>请上传头像面</span>
+        </div>
+        <div>
+            <div class="upload-container">
+                <el-upload
+                        :with-credentials="true"
+                        action="https://api.open.birdwork.com/api/yj/upload"
+                        accept="image/jpeg,image/gif,image/png"
+                        :http-request="handleIdCardSuccessBack"
+                        :show-file-list="false"
+                        >
+                    <img v-if="form.appletsIdNumBack" :src="form.appletsIdNumBack" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+            </div>
+            <span>请上传国徽面</span>
+        </div>
+    </div>-->
+<!--    <el-form label-width="120px" v-model="form" ref="form">
+        <el-form-item label="姓名：" prop="name">
+            <el-input disabled v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证号：" prop="ids">
+            <el-input disabled v-model="form.ids"></el-input>
+        </el-form-item>
+    </el-form>-->
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__hd">
+                        <p class="weui-uploader__title">身份证上传</p>
+                    </div>
+                    <div class="weui-uploader__bd">
+                        <div class="weui-uploader__input-box">
+                            <input id="uploaderInput1" @change="uploadFront" class="weui-uploader__input"  type="file" accept="image/*" multiple />
+                            <img style="width: 100%;height: 100%" v-if="form.appletsIdNumFront" :src="form.appletsIdNumFront">
+                        </div>
+                        <div class="weui-uploader__input-box">
+                            <input id="uploaderInput2" @change="uploadBack"  class="weui-uploader__input" type="file" accept="image/*" multiple />
+                            <img style="width: 100%;height: 100%" v-if="form.appletsIdNumBack" :src="form.appletsIdNumBack">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">姓名:</label></div>
+            <div class="weui-cell__bd">
+                <input v-model="form.name" disabled class="weui-input" placeholder="请输入手机号"/>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">身份证号:</label></div>
+            <div class="weui-cell__bd">
+                <input v-model="form.ids" disabled class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入身份证号"/>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 30px" class="weui-btn weui-btn_block weui-btn_primary" @click="sure">{{loadingText}}</div>
+<!--    <el-row class="buttonRow">
+        <el-button class="loginButton" type="primary" :loading="loading" @click="sure">{{loadingText}}</el-button>
+    </el-row>-->
+</div>
+</body>
+</html>
+<script type="text/javascript" src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/jquery/dist/zepto.min.js"></script>
+<script>
+    new Vue({   //创建一个Vue的实例
+        el: "#login", //挂载
+        data: {     //数据
+            form: {
+                appletsIdNumFront: '',
+                appletsIdNumBack: '',
+                name: '',
+                ids: '',
+            },
+            user: [],
+            loading: false,
+            loadingText: '确定',
+        },
+        created(){
+            this.user = JSON.parse(window.sessionStorage.getItem("user"));
+            if (this.user) {
+                this.user.appletsId = this.user.appletsId ? this.user.appletsId : '',
+                this.user.appletsUser.id = this.user.appletsUser.id ? this.user.appletsUser.id : 0,
+                this.form.name = this.user.appletsUser.name ? this.user.appletsUser.name: '',
+                this.form.ids = this.user.appletsUser.idNum ? this.user.appletsUser.idNum : '',
+                this.form.appletsIdNumFront = this.user.appletsUser.idNumFront ? this.user.appletsUser.idNumFront: '',
+                this.form.appletsIdNumBack = this.user.appletsUser.idNumBack ? this.user.appletsUser.idNumBack: ''
+            }
+            console.log(this.user);
+        },
+        mounted(){
+
+        },
+        methods: {
+        	uploadFront(){
+        		var _this = this;
+                let imgFile = $(this.$el).find('#uploaderInput1')[0].files[0];//取到上传的图片
+                if(imgFile.size / 1024 > 1000){
+                    this.imgPreview1(imgFile);
+                }else{
+                    var params = new FormData();
+                    params.append('appletsId',_this.user.appletsUser.id);
+                    params.append('token',_this.user.appletsId);
+                    params.append('type', 1);
+                    params.append('file',imgFile);
+                    const loading = _this.$loading({
+                        lock: true,
+                        text: '上传图片中',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(0, 0, 0, 0.7)'
+                    });
+                    axios.post('https://api.open.birdwork.com/api/yj/upload',params,{
+                        headers:{'Content-Type':'multipart/form-data'}
+                    })
+                        .then((response) => {
+                            if (response.data.code == 0) {
+                                _this.$notify({
+                                    message: '您已成功上传',
+                                    type: 'success',
+                                    offset: 50,
+                                    duration: 0
+                                });
+                                _this.form.appletsIdNumFront = response.data.data.picUrl;
+                                loading.close();
+                            } else {
+                                this.$message({
+                                    type: 'error',
+                                    message: response.data.message
+                                })
+                                loading.close();
+                            }
+
+                        })
+                }
+            },
+            // 获取图片
+            imgPreview1 (file, callback) {
+                let self = this
+                // 判断是否支持FileReader
+                if (!file || !window.FileReader) return
+                // 创建一个reader
+                var reader = new FileReader()
+                // 将图片转成base64格式
+                reader.readAsDataURL(file)
+                // 读取成功后的回调
+                reader.onloadend = function () {
+                    let result = this.result
+                    let img = new Image()
+                    img.src = result
+                    console.log('============未压缩图片===========')
+                    console.log(result.length)
+
+                    img.onload = function () {
+                        let data = self.comPress(img)
+                        console.log(data.length)
+                        var params = new FormData();
+                        params.append('appletsId',self.user.appletsUser.id);
+                        params.append('token',self.user.appletsId);
+                        params.append('type', 1);
+                        params.append('file',data);
+                        const loading = self.$loading({
+                            lock: true,
+                            text: '上传图片中',
+                            spinner: 'el-icon-loading',
+                            background: 'rgba(0, 0, 0, 0.7)'
+                        });
+                        axios.post('https://api.open.birdwork.com/api/yj/upload',params,{
+                            headers:{'Content-Type':'multipart/form-data'}
+                        })
+                            .then((response) => {
+                                if (response.data.code == 0) {
+                                    self.$notify({
+                                        message: '您已成功上传',
+                                        type: 'success',
+                                        offset: 50,
+                                        duration: 0
+                                    });
+                                    self.form.appletsIdNumFront = response.data.data.picUrl;
+                                    loading.close()
+                                } else {
+                                self.$message({
+                                        type: 'error',
+                                        message: response.data.message
+                                    });
+                                    loading.close()
+                                }
+
+                            })
+
+                    }
+                }
+            },
+            // 获取图片
+            imgPreview2 (file, callback) {
+                let self = this
+                // 判断是否支持FileReader
+                if (!file || !window.FileReader) return
+                // 创建一个reader
+                var reader = new FileReader()
+                // 将图片转成base64格式
+                reader.readAsDataURL(file)
+                // 读取成功后的回调
+                reader.onloadend = function () {
+                    let result = this.result
+                    let img = new Image()
+                    img.src = result
+                    console.log('============未压缩图片===========')
+                    console.log(result.length)
+
+                    img.onload = function () {
+                        let data = self.comPress(img)
+                        console.log(data.length)
+                        var params = new FormData();
+                        params.append('appletsId',self.user.appletsUser.id);
+                        params.append('token',self.user.appletsId);
+                        params.append('type', 2);
+                        params.append('file',data);
+                        const loading = self.$loading({
+                            lock: true,
+                            text: '上传图片中',
+                            spinner: 'el-icon-loading',
+                            background: 'rgba(0, 0, 0, 0.7)'
+                        });
+                        axios.post('https://api.open.birdwork.com/api/yj/upload',params,{
+                            headers:{'Content-Type':'multipart/form-data'}
+                        })
+                            .then((response) => {
+                                if (response.data.code == 0) {
+                                    self.$notify({
+                                        message: '您已成功上传',
+                                        type: 'success',
+                                        offset: 50,
+                                        duration: 0
+                                    });
+                                    self.form.appletsIdNumBack = response.data.data.picUrl;
+                                    loading.close()
+                                } else {
+                                    self.$message({
+                                        type: 'error',
+                                        message: response.data.message
+                                    });
+                                  loading.close()
+                                }
+
+                            })
+
+                    }
+                }
+            },
+            uploadBack(){
+
+                var _this = this;
+                let imgFile = $(this.$el).find('#uploaderInput2')[0].files[0];//取到上传的图片
+                if(imgFile.size / 1024 > 1000){
+                    this.imgPreview2(imgFile);
+                }else{
+                    var params = new FormData();
+                    params.append('appletsId',_this.user.appletsUser.id);
+                    params.append('token',_this.user.appletsId);
+                    params.append('type', 2);
+                    params.append('file',imgFile);
+                    const loading = _this.$loading({
+                        lock: true,
+                        text: '上传图片中',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(0, 0, 0, 0.7)'
+                    });
+                    axios.post('https://api.open.birdwork.com/api/yj/upload',params,{
+                        headers:{'Content-Type':'multipart/form-data'}
+                    })
+                        .then((response) => {
+                            if (response.data.code == 0) {
+                                _this.$notify({
+                                    message: '您已成功上传',
+                                    type: 'success',
+                                    offset: 50,
+                                    duration: 0
+                                });
+                                _this.form.appletsIdNumBack = response.data.data.picUrl;
+                                loading.close()
+                            } else {
+                                this.$message({
+                                    type: 'error',
+                                    message: response.data.message
+                                })
+                              loading.close()
+                            }
+
+                        })
+                }
+            },
+            // 压缩图片
+            comPress(img) {
+                let canvas = document.createElement("canvas");
+                let ctx = canvas.getContext("2d");
+                let initSize = img.src.length;
+                let width = img.width;
+                let height = img.height;
+                canvas.width = width;
+                canvas.height = height;
+                // 铺底色
+                ctx.fillStyle = "#fff";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0, width, height);
+
+                //进行最小压缩
+                let ndata = canvas.toDataURL("image/jpeg", 0.5);
+                console.log("*******压缩后的图片大小*******");
+                // console.log(ndata)
+                console.log(ndata.length);
+                return this.convertBase64UrlToBlob(ndata);
+            },
+            //base64转Blob
+            convertBase64UrlToBlob(urlData){
+                var bytes=window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte
+
+                //处理异常,将ascii码小于0的转换为大于0
+                var ab = new ArrayBuffer(bytes.length);
+                var ia = new Uint8Array(ab);
+                for (var i = 0; i < bytes.length; i++) {
+                    ia[i] = bytes.charCodeAt(i);
+                }
+
+                return new Blob( [ab] , {type : 'image/png'});
+            },
+            // 压缩图片
+            compress(img) {
+                let canvas = document.createElement("canvas");
+                let ctx = canvas.getContext("2d");
+                let initSize = img.src.length;
+                let width = img.width;
+                let height = img.height;
+                canvas.width = width;
+                canvas.height = height;
+                // 铺底色
+                ctx.fillStyle = "#fff";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0, width, height);
+
+                //进行最小压缩
+                let ndata = canvas.toDataURL("image/jpeg", 0.7);
+                console.log("*******压缩后的图片大小*******");
+                // console.log(ndata)
+                console.log(ndata.length);
+                return ndata;
+            },
+            handleIdCardSuccessFront(options) {
+                this.$notify({
+                    message: '开始上传',
+                    type: 'success',
+                    offset: 50,
+                    duration: 0
+                });
+                console.log('options')
+                console.log(options)
+                var that = this
+                // 获取文件对象
+                let file = options.file
+                //判断图片类型
+                if (file.type == 'image/jpeg' || file.type == 'image/png' || file.type == 'image/JPG') {
+                    var  isJPG =  true
+                } else {
+                    isJPG =  false
+                }
+                // 判断图片大小
+                const isLt2M = file.size / 1024 / 1024 < 100
+                if (!isJPG) {
+                    this.$notify.error('上传产品图片只能是 JPG/PNG/JPEG 格式!')
+                }
+                if (!isLt2M) {
+                    this.$notify.error('上传产品图片大小不能超过 100MB!')
+                }
+                // 创建一个HTML5的FileReader对象
+                var reader = new FileReader();
+                //创建一个img对象
+                var  img = new Image();
+                let filename = options.filename
+                if (file) {
+                    reader.readAsDataURL(file)
+                }
+                if (isJPG && isLt2M) {
+                    this.$notify({
+                        message: '执行压缩',
+                        type: 'success',
+                        offset: 50,
+                        duration: 0
+                    });
+                    reader.onload = (e) => {
+                        let base64Str = reader.result.split(',')[1]
+                        img.src = e.target.result
+                        // base64地址图片加载完毕后执行
+                        img.onload = function () {
+                            // 缩放图片需要的canvas（也可以在DOM中直接定义canvas标签，这样就能把压缩完的图片不转base64也能直接显示出来）
+                            var canvas = document.createElement('canvas');
+                            var context = canvas.getContext('2d');
+                            // 图片原始尺寸
+                            var originWidth = this.width;
+                            var originHeight = this.height;
+                            // 最大尺寸限制，可通过设置宽高来实现图片压缩程度
+                            var maxWidth = 1000,
+                                maxHeight = 1000;
+                            // 目标尺寸
+                            var targetWidth = originWidth,
+                                targetHeight = originHeight;
+                            // 图片尺寸超过最大尺寸的限制
+                            if (originWidth > maxWidth || originHeight > maxHeight) {
+                                if (originWidth / originHeight > maxWidth / maxHeight) {
+                                    // 更改宽度，按照宽度限定尺寸
+                                    targetWidth = maxWidth;
+                                    targetHeight = Math.round(maxWidth * (originHeight / originWidth));
+                                } else {
+                                    targetHeight = maxHeight;
+                                    targetWidth = Math.round(maxHeight * (originWidth / originHeight));
+                                }
+                            }
+                            //对图片进行缩放
+                            canvas.width = targetWidth;
+                            canvas.height = targetHeight;
+                            // 清除画布
+                            context.clearRect(0, 0, targetWidth, targetHeight);
+                            // 图片压缩
+                            context.drawImage(img, 0, 0, targetWidth, targetHeight);
+                            /*第一个参数是创建的img对象；第二三个参数是左上角坐标，后面两个是画布区域宽高*/
+                            //压缩后的base64文件
+                            var newUrl = canvas.toDataURL('image/jpeg', 1);
+                            console.log('newUrl')
+                            console.log(newUrl)
+                            canvas.toBlob(function (res) {
+                                let files = new window.File([res], file.name, {type: file.type})
+                                var params = new FormData();
+                                params.append('appletsId', that.user.appletsUser.id);
+                                params.append('token', that.user.appletsId);
+                                params.append('type', 1);
+                                params.append('file', files);
+                                console.log('files')
+                                console.log(files)
+                                axios.post('https://api.open.birdwork.com/api/yj/upload', params)
+                                    .then((response) => {
+                                        that.$notify({
+                                            message: '完成上传',
+                                            type: 'success',
+                                            offset: 50,
+                                            duration: 0
+                                        });
+                                        that.$notify({
+                                            message: response.data,
+                                            type: 'success',
+                                            offset: 50,
+                                            duration: 0
+                                        });
+                                        console.log(response)
+                                        if (response.data.code == 0) {
+                                            that.$message({
+                                                type: 'success',
+                                                message: '上传成功'
+                                            });
+                                            console.log(that)
+                                            console.log(response)
+                                            that.form.appletsIdNumFront = response.data.data.picUrl,
+                                            that.form.name = response.data.data.name,
+                                            that.form.ids = response.data.data.ids,
+                                            console.log(that)
+                                        } else {
+                                            that.$message({
+                                                type: 'error',
+                                                message: response.message
+                                            })
+                                        }
+                                        ;
+                                    })
+                            })
+                        }
+                    }
+                }
+
+            },
+            handleIdCardSuccessBack(options) {
+                console.log('options')
+                console.log(options)
+                var that = this
+                // 获取文件对象
+                let file = options.file
+                //判断图片类型
+                if (file.type == 'image/jpeg' || file.type == 'image/png' || file.type == 'image/JPG') {
+                    var  isJPG =  true
+                } else {
+                    isJPG =  false
+                }
+                // 判断图片大小
+                const isLt2M = file.size / 1024 / 1024 < 100
+                if (!isJPG) {
+                    this.$message.error('上传产品图片只能是 JPG/PNG/JPEG 格式!')
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传产品图片大小不能超过 100MB!')
+                }
+                // 创建一个HTML5的FileReader对象
+                var reader = new FileReader();
+                //创建一个img对象
+                var  img = new Image();
+                let filename = options.filename
+                if (file) {
+                    reader.readAsDataURL(file)
+                }
+                if (isJPG && isLt2M) {
+                    reader.onload = (e) => {
+                        let base64Str = reader.result.split(',')[1]
+                        img.src = e.target.result
+                        // base64地址图片加载完毕后执行
+                        img.onload = function () {
+                            // 缩放图片需要的canvas（也可以在DOM中直接定义canvas标签，这样就能把压缩完的图片不转base64也能直接显示出来）
+                            var canvas = document.createElement('canvas');
+                            var context = canvas.getContext('2d');
+                            // 图片原始尺寸
+                            var originWidth = this.width;
+                            var originHeight = this.height;
+                            // 最大尺寸限制，可通过设置宽高来实现图片压缩程度
+                            var maxWidth = 1000,
+                                maxHeight = 1000;
+                            // 目标尺寸
+                            var targetWidth = originWidth,
+                                targetHeight = originHeight;
+                            // 图片尺寸超过最大尺寸的限制
+                            if (originWidth > maxWidth || originHeight > maxHeight) {
+                                if (originWidth / originHeight > maxWidth / maxHeight) {
+                                    // 更改宽度，按照宽度限定尺寸
+                                    targetWidth = maxWidth;
+                                    targetHeight = Math.round(maxWidth * (originHeight / originWidth));
+                                } else {
+                                    targetHeight = maxHeight;
+                                    targetWidth = Math.round(maxHeight * (originWidth / originHeight));
+                                }
+                            }
+                            //对图片进行缩放
+                            canvas.width = targetWidth;
+                            canvas.height = targetHeight;
+                            // 清除画布
+                            context.clearRect(0, 0, targetWidth, targetHeight);
+                            // 图片压缩
+                            context.drawImage(img, 0, 0, targetWidth, targetHeight);
+                            /*第一个参数是创建的img对象；第二三个参数是左上角坐标，后面两个是画布区域宽高*/
+                            //压缩后的base64文件
+                            var newUrl = canvas.toDataURL('image/jpeg', 1);
+                            console.log('newUrl')
+                            console.log(newUrl)
+                            canvas.toBlob(function (res) {
+                                let files = new window.File([res], file.name, {type: file.type})
+                                var params = new FormData();
+                                params.append('appletsId', that.user.appletsUser.id);
+                                params.append('token', that.user.appletsId);
+                                params.append('type', 2);
+                                params.append('file', files);
+                                axios.post('https://api.open.birdwork.com/api/yj/upload', params)
+                                    .then((response) => {
+                                        console.log(response)
+                                        if (response.data.code == 0) {
+                                            that.$message({
+                                                type: 'success',
+                                                message: '上传成功'
+                                            });
+                                            console.log(that)
+                                            console.log(response)
+                                            that.form.appletsIdNumBack = response.data.data.picUrl
+                                            console.log(that)
+                                        } else {
+                                            that.$message({
+                                                type: 'error',
+                                                message: response.message
+                                            })
+                                        }
+                                        ;
+                                    })
+                            })
+                        }
+                    }
+                }
+
+            },
+
+            sure() {
+                if (this.form.name && this.form.ids && this.form.appletsIdNumFront && this.form.appletsIdNumBack) {
+                    this.loading = true;
+                    this.loadingText = '上传中';
+                    axios.get('https://api.open.birdwork.com/api/yj/complete',{
+                        params: {
+                            name: this.form.name,
+                            ids: this.form.ids,
+                            token: this.user.appletsId,
+                            appletsId: this.user.appletsUser.id,
+                            ids_f: this.form.appletsIdNumFront,
+                            ids_b: this.form.appletsIdNumBack
+                        }})
+                        .then((response) => {
+                            if (response.data.code == 0) {
+                                // this.$alert('您已完成认证', '', {
+                                //     confirmButtonText: '确定',
+                                //     center: true,
+                                //     callback: action => {
+                                //
+                                //     }
+                                // });
+                                this.$notify({
+                                    message: '您已完成认证',
+                                    type: 'success',
+                                    offset: 50,
+                                    duration: 0
+                                });
+                                this.loading = false;
+                                this.loadingText = '确定';
+                                setTimeout(()=>{
+                                    window.open('agreement.html','_self')
+                                },450)
+
+                            } else {
+                                this.$message({
+                                    type: 'error',
+                                    message: response.data.message
+                                })
+                            }
+
+                        })
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: '请完善信息'
+                    })
+                }
+
+            },
+
+        }
+    })
+</script>
